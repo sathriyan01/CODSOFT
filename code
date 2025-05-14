@@ -1,0 +1,365 @@
+# NUMBER GUESSING GAME
+import java.util.Random;
+import java.util.Scanner;
+
+public class NumberGuessingGame {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
+        int maxAttempts = 5;
+        boolean playAgain;
+
+        do {
+            int numberToGuess = random.nextInt(100) + 1;
+            int attempts = 0;
+            boolean hasGuessedCorrectly = false;
+
+            System.out.println("Guess a number between 1 and 100. You have " + maxAttempts + " attempts.");
+
+            while (attempts < maxAttempts) {
+                System.out.print("Enter your guess: ");
+                int guess = scanner.nextInt();
+                attempts++;
+
+                if (guess == numberToGuess) {
+                    System.out.println("Congratulations! You guessed the number in " + attempts + " attempts.");
+                    hasGuessedCorrectly = true;
+                    break;
+                } else if (guess < numberToGuess) {
+                    System.out.println("Too low!");
+                } else {
+                    System.out.println("Too high!");
+                }
+            }
+
+            if (!hasGuessedCorrectly) {
+                System.out.println("Sorry, you've used all attempts. The number was: " + numberToGuess);
+            }
+
+            System.out.print("Do you want to play again? (yes/no): ");
+            playAgain = scanner.next().equalsIgnoreCase("yes");
+        } while (playAgain);
+
+        scanner.close();
+    }
+}
+
+# STUDENT  GRADE CALCULATOR
+
+import java.util.Scanner;
+
+public class GradeCalculator {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the number of subjects: ");
+        int numSubjects = scanner.nextInt();
+        int[] marks = new int[numSubjects];
+        int total = 0;
+
+        for (int i = 0; i < numSubjects; i++) {
+            System.out.print("Enter marks for subject " + (i + 1) + ": ");
+            marks[i] = scanner.nextInt();
+            total += marks[i];
+        }
+
+        double average = (double) total / numSubjects;
+        char grade;
+
+        if (average >= 80) {
+            grade = 'A';
+        } else if (average >= 60) {
+            grade = 'B';
+        } else if (average >= 40) {
+            grade = 'C';
+        } else {
+            grade = 'D';
+        }
+
+        System.out.println("Total Marks: " + total);
+        System.out.println("Average Percentage: " + average + "%");
+        System.out.println("Grade: " + grade);
+
+        scanner.close();
+    }
+}
+
+# ATM SIMULATION
+
+import java.util.Scanner;
+
+class BankAccount {
+    private double balance;
+
+    public BankAccount(double initialBalance) {
+        this.balance = initialBalance;
+    }
+
+    public void deposit(double amount) {
+        if (amount > 0) {
+          
+  balance += amount;
+            System.out.println("Deposited: ₹" + amount);
+        } else {
+            System.out.println("Invalid deposit amount.");
+        }
+    }
+
+    public void withdraw(double amount) {
+        if (amount > 0 && amount <= balance) {
+            balance -= amount;
+            System.out.println("Withdrawn: ₹" + amount);
+        } else {
+            System.out.println("Invalid withdrawal amount or insufficient balance.");
+        }
+    }
+
+    public void checkBalance() {
+        System.out.println("Current Balance: ₹" + balance);
+    }
+}
+
+public class ATMInterface {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        BankAccount account = new BankAccount(1000.0);
+        int choice;
+
+        do {
+            
+ System.out.println("\nATM Menu:");
+ System.out.println("1. Deposit");
+            System.out.println("2. Withdraw");
+            System.out.println("3. Check Balance");
+            System.out.println("4. Exit");
+            System.out.print("Enter choice: ");
+            choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter deposit amount: ₹");
+                    double depositAmount = scanner.nextDouble();
+                    account.deposit(depositAmount);
+                    break;
+                case 2:
+                    System.out.print("Enter withdrawal amount: ₹");
+                    double withdrawAmount = scanner.nextDouble();
+                    account.withdraw(withdrawAmount);
+                    break;
+                case 3:
+                    account.checkBalance();
+                    break;
+                case 4:
+                    System.out.println("Thank you for using the ATM.");
+                    break;
+                default:
+                    System.out.println("Invalid choice.");
+            }
+        
+} while (choice != 4);
+
+        scanner.close();
+    }
+}
+
+# QUIZ APPLICATION WITH TIMER
+
+import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class QuizApplication {
+    private static Scanner scanner = new Scanner(System.in);
+    private static int score = 0;
+    private static boolean answered = false;
+
+    public static void main(String[] args) {
+        String[] questions = {
+            "What is the capital of France?\nA. Berlin\nB. London\nC. Paris\nD. Rome",
+            "Which planet is known as the Red Planet?\nA. Earth\nB. Mars\nC. Jupiter\nD. Venus"
+        };
+        char[] answers = {'C', 'B'};
+
+        for (int i = 0; i < questions.length; i++) {
+            answered = false;
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                public void run() {
+                    if (!answered) {
+                        System.out.println("\nTime's up!");
+                        System.exit(0);
+                    }
+                }
+            }, 10000); // 10 seconds
+
+            System.out.println(questions[i]);
+            System.out.print("Your answer: ");
+            char answer = scanner.next().toUpperCase().charAt(0);
+            answered = true;
+            timer.cancel();
+
+            if (answer == answers[i]) {
+                System.out.println("Correct!");
+                score++;
+            } else {
+                System.out.println("Incorrect.");
+            }
+        }
+
+        System.out.println("Your final score is: " + score + "/" + questions.length);
+        scanner.close();
+    }
+}
+
+
+
+
+
+
+
+# COURSE REGISTRATION SYSTEM
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Course {
+    String code;
+    String title;
+    int capacity;
+    int enrolled;
+
+    public Course(String code, String title, int capacity) {
+        this.code = code;
+        this.title = title;
+        this.capacity = capacity;
+        this.enrolled = 0;
+    }
+
+    public boolean register() {
+        if (enrolled < capacity) {
+            enrolled++;
+            return true;
+        }
+        return false;
+    }
+
+    public void drop() {
+        if (enrolled > 0) {
+            enrolled--;
+        }
+    }
+
+    public String toString() {
+        return code + ": " + title + " (Enrolled: " + enrolled + "/" + capacity + ")";
+    }
+}
+
+public class CourseRegistrationSystem {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<Course> courses = new ArrayList<>();
+        ArrayList<Course> registeredCourses = new ArrayList<>();
+
+        courses.add(new Course("CS101", "Introduction to Computer Science", 2));
+        courses.add(new Course("MA101", "Calculus I", 2));
+        courses.add(new Course("PH101", "Physics I", 2));
+
+        int choice;
+        do {
+            System.out.println("\nCourse Registration Menu:");
+            System.out.println("1. View Available Courses");
+            System.out.println("2. Register for a Course");
+            System.out.println("3. Drop a Course");
+            System.out.println("4. View Registered Courses");
+            System.out.println("5. Exit");
+            System.out.print("Enter choice: ");
+            choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+            switch (choice) {
+                case 1:
+                    for (Course c : courses) {
+                        System.out.println(c);
+                    }
+                    break;
+                case 2:
+                    System.out.print("Enter course code to register: ");
+                    String regCode = scanner.nextLine();
+                    Course regCourse = findCourse(courses, regCode);
+                    if (regCourse != null && regCourse.register()) {
+                        registeredCourses.add(regCourse);
+                        System.out.println("Registered for " + regCourse.title);
+                    } else {
+                        System.out.println("Registration failed. Course may be full or not found.");
+                    }
+                    break;
+                case 3:
+                    System.out.print("Enter course code to drop: ");
+                    String dropCode = scanner.nextLine();
+                    Course dropCourse = findCourse(registeredCourses, dropCode);
+                    if (dropCourse != null) {
+                        dropCourse.drop();
+                        registeredCourses.remove(dropCourse);
+                        System.out.println("Dropped " + dropCourse.title);
+                    } else {
+                        System.out.println("You are not registered in this course.");
+                    }
+                    break;
+                case 4:
+                    for (Course c : registeredCourses) {
+                        System.out.println(c);
+                    }
+                    break;
+                case 5:
+                    System.out.println("Exiting Course Registration System.");
+                    break;
+                default:
+                    System.out.println("Invalid choice.");
+            }
+        } while (choice != 5);
+
+        scanner.close();
+    }
+
+    private static Course findCourse(ArrayList<Course> courses, String code) {
+        for (Course c : courses) {
+            if (c.code.equalsIgnoreCase(code)) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+	self.paper_img = Image.open("C:/Users/Surend/OneDrive/Desktop/Codsoft/Rock Scissor game/paper.png").resize((100, 100))
+self.scissors_img = Image.open("C:/Users/Surend/OneDrive/Desktop/Codsoft/Rock Scissor game/scissor.png").resize((100, 100))
+self.rock_img = ImageTk.PhotoImage(self.rock_img) self.paper_img = ImageTk.PhotoImage(self.paper_img) self.scissors_img = ImageTk.PhotoImage(self.scissors_img)
+
+def determine_winner(self, user_choice, computer_choice): if user_choice == computer_choice:
+return "It's a tie!" elif (
+(user_choice == "rock" and computer_choice == "scissors") or (user_choice == "paper" and computer_choice == "rock") or (user_choice == "scissors" and computer_choice == "paper")
+):
+self.user_score += 1 return "You win!"
+else:
+self.computer_score += 1 return "You lose!"
+def play_game(self, user_choice):
+computer_choice = random.choice(["rock", "paper", "scissors"]) result = self.determine_winner(user_choice, computer_choice)
+result_text = (
+f"Your choice: {user_choice}\n" f"Computer's choice: {computer_choice}\n\n" f"{result}\n"
+f"Score - You: {self.user_score}, Computer: {self.computer_score}"
+)
+
+messagebox.showinfo("Result", result_text)
+if self.user_score == self.winning_score or self.computer_score == self.winning_score:
+self.show_play_again_button() def create_widgets(self):
+self.rock_button = tk.Button(self.window, image=self.rock_img, command=lambda: self.play_game("rock"))
+self.paper_button = tk.Button(self.window, image=self.paper_img, command=lambda: self.play_game("paper"))
+self.scissors_button = tk.Button(self.window, image=self.scissors_img, command=lambda: self.play_game("scissors"))
+self.rock_button.grid(row=0, column=0, padx=10, pady=10) self.paper_button.grid(row=0, column=1, padx=10, pady=10) self.scissors_button.grid(row=0, column=2, padx=10, pady=10)
+def show_play_again_button(self):
+play_again_button = tk.Button(self.window, text="Play Again", command=self.reset_game)
+play_again_button.grid(row=1, column=0, columnspan=3, pady=10)
+
+def reset_game(self): self.user_score = 0
+self.computer_score = 0 self.rock_button['state'] = 'normal' self.paper_button['state'] = 'normal' self.scissors_button['state'] = 'normal'
+def run(self): self.window.mainloop()
+if	name	== "	main	":
+game = RockPaperScissorsGame() game.run() 
